@@ -34,3 +34,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Example env file
+### Development
+#### MySQL Credentials
+MYSQL_HOST=10.201.10.163
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=6!bBGABQ3xZHdhmo
+MYSQL_DATABASE=cosmo_wms_9774
+
+#### API_URL
+NEXT_PUBLIC_API_URL=http://localhost:3000/
+
+### Production
+NODE_ENV=production
+PORT=7000
+#### MySQL Credentials
+MYSQL_HOST=10.201.10.163
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=6!bBGABQ3xZHdhmo
+MYSQL_DATABASE=cosmo_wms_9774
+
+#### API_URL
+NEXT_PUBLIC_API_URL=http://10.35.10.79:7000

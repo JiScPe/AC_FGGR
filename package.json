@@ -5,19 +5,32 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
+    "next-start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "chart.js": "^4.4.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "date-fns": "^2.30.0",
+    "moment": "^2.29.4",
+    "mysql2": "^3.6.1",
+    "next": "^13.5.4",
+    "next-themes": "^0.2.1",
     "react": "latest",
+    "react-chartjs-2": "^5.2.0",
+    "react-date-range": "^1.4.0",
     "react-dom": "latest",
-    "next": "latest"
+    "react-icons": "^4.11.0",
+    "rsuite": "^5.40.0"
   },
   "devDependencies": {
+    "@types/node": "20.8.6",
     "autoprefixer": "latest",
-    "postcss": "latest",
-    "tailwindcss": "latest",
     "eslint": "latest",
-    "eslint-config-next": "latest"
+    "eslint-config-next": "latest",
+    "mysql": "^2.18.1",
+    "postcss": "latest",
+    "tailwindcss": "latest"
   }
 }
