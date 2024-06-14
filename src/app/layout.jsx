@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={onest.className} suppressHydrationWarning={true}>
       <head>
-        <script
+        {/* <script
           dangerouslySetInnerHTML={{
             __html: `
           if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
           }
           `,
           }}
-        />
+        /> */}
       </head>
       <body className="flex flex-col bg-slate-200 dark:bg-opacity-0 min-h-[100dvh]">
         <MyThemeProvider attribute="class">
