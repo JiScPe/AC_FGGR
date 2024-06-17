@@ -8,6 +8,8 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import MyDateRangePicker from "../MyDateRangePicker";
 import { configuringDatalabel } from "./configChart";
+import { useSearchParams } from "next/navigation";
+import TableLoading from "../table-detail/TableLoading";
 
 /* `Chart.register(ChartDataLabels);` is registering the `ChartDataLabels` plugin with the
     `Chart.js` library. This allows the plugin to be used in the chart configuration to display data
@@ -26,13 +28,15 @@ const FGGRRateChart = () => {
   const [showDatePicker, setShowDatePicker] = useState(true);
   const [isLoading, setisLoading] = useState(true);
   const [toggleDateRange, settoggleDateRange] = useState(false);
+  const searchParams = useSearchParams();
+  const plant = searchParams.get("plant");
 
-  useEffect(() => {
+  function fetchData() {
     const start_date = moment(dateRange[0].startDate).format("YYYY-MM-DD");
     const end_date = moment(dateRange[0].endDate).format("YYYY-MM-DD");
 
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/fggr-rate?start_date=${start_date}&end_date=${end_date}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/fggr-rate?start_date=${start_date}&end_date=${end_date}&plant=${plant}`,
       { cache: "no-store" }
     )
       .then((res) => res.json())
@@ -42,7 +46,12 @@ const FGGRRateChart = () => {
           setisLoading(false);
         }
       });
-  }, [dateRange]);
+  }
+
+  useEffect(() => {
+    setisLoading(true);
+    fetchData();
+  }, [dateRange, plant]);
 
   async function configuringChart(reportData) {
     /**
@@ -145,12 +154,16 @@ const FGGRRateChart = () => {
           {toggleDateRange ? <FaChevronUp /> : <FaChevronDown />}
         </button>
 
-        {toggleDateRange && (
-          <MyDateRangePicker
-            value={dateRange}
-            onChange={handleDateChange}
-            visible={showDatePicker}
-          />
+        {isLoading ? (
+          <TableLoading isVisible={isLoading} />
+        ) : (
+          toggleDateRange && (
+            <MyDateRangePicker
+              value={dateRange}
+              onChange={handleDateChange}
+              visible={showDatePicker}
+            />
+          )
         )}
         <canvas id="Chart" className="w-full h-[400px]"></canvas>
       </div>

@@ -8,6 +8,7 @@ export async function GET(req) {
   const searchParams = req.nextUrl.searchParams;
   const start_date = searchParams.get("start_date");
   const end_date = searchParams.get("end_date");
+  const plant = searchParams.get("plant");
   const date_range = [start_date, end_date];
   let connection;
   // Connect database
@@ -21,7 +22,7 @@ export async function GET(req) {
         throw new Error("Date range is required!");
       }
 
-      const [rows] = await getFGGRRate(connection, date_range);
+      const [rows] = await getFGGRRate(connection, date_range, plant);
       const queryRes = rows;
       return NextResponse.json(queryRes, { status: 200 });
     } catch (error) {
