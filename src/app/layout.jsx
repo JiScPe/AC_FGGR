@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import MainNavigation from "./components/MainNavigation";
 import "./globals.css";
 import { Onest } from "next/font/google";
@@ -14,7 +13,7 @@ const onest = Onest({ subsets: ["latin"], display: "swap" });
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={onest.className} suppressHydrationWarning={true}>
-      <body className="flex flex-col bg-slate-200 dark:bg-opacity-0 min-h-[100dvh]">
+      <body className="flex flex-col dark:bg-opacity-0 min-h-[100dvh]">
         <header>
           <MainNavigation />
         </header>

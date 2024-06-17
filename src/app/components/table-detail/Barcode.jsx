@@ -9,7 +9,7 @@ function Barcode({ itemList }) {
       const intervalId = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * itemList.length);
         setRandomBarcode(itemList[randomIndex].barcode);
-      }, 2000);
+      }, 1000 * 15);
 
       // Cleanup the interval on component unmount or itemList change
       return () => clearInterval(intervalId);
