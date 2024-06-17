@@ -2,27 +2,29 @@
 import { useEffect, useState } from "react";
 import Barcode from "./Barcode";
 import TableLoading from "./TableLoading";
+import { useSearchParams } from "next/navigation";
 
 function TableDetail() {
   const [fggrList, setfggrList] = useState([]);
   const [barcodeList, setbarcodeList] = useState([]);
   const [isLoading, setisLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const plant = searchParams.get("plant");
 
   useEffect(() => {
+    setisLoading(true)
     fetchData();
     fetchAllBarcode();
     const intervalId = setInterval(() => {
       fetchData();
       fetchAllBarcode();
-    }, 1000 * 10);
+    }, 1000 * 60 * 5);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [plant]);
 
   async function fetchData() {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-fggr`, {
-      cache: "no-store",
-    })
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-fggr?plant=${plant}`)
       .then((res) => res.json())
       .then((data) => {
         setfggrList(data);
@@ -31,7 +33,7 @@ function TableDetail() {
   }
 
   async function fetchAllBarcode() {
-    fetch("/api/fg-notgr")
+    fetch(`/api/fg-notgr?plant=${plant}`)
       .then((res) => res.json())
       .then((data) => setbarcodeList(data));
   }

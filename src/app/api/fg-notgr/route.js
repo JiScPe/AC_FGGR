@@ -1,10 +1,11 @@
 import { connectDatabase } from "@/helpers/db-util";
-import { testQuery } from "@/helpers/fg-notgr-util";
+import { getFGNotGR } from "@/helpers/fg-notgr-util";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req) {
+  const plant = req.nextUrl.searchParams.get('plant')
   let connection;
   //Connect database
   try {
@@ -14,7 +15,7 @@ export async function GET() {
 
     //Query fg offline data
     try {
-      const [rows] = await testQuery(connection);
+      const [rows] = await getFGNotGR(connection, plant);
       const queryResults = rows;
       return NextResponse.json(queryResults, { status: 200 });
     } catch (error) {

@@ -1,4 +1,4 @@
-export async function getFGGR(connection) {
+export async function getFGGR(connection, plant) {
   const sql = `SELECT
         row_id,
         product_code as 'FG',
@@ -7,7 +7,7 @@ export async function getFGGR(connection) {
         SUM(CASE WHEN auto_flag = 1 THEN 1 ELSE 0 END) AS GR,
         SUM(CASE WHEN auto_flag = 0 THEN 1 ELSE 0 END) AS Diff
     FROM
-        cosmo_wms_9774.ods_raw_offline_backflush AS MF
+        cosmo_wms_${plant}.ods_raw_offline_backflush AS MF
     WHERE
         DATE_FORMAT(created_date, '%Y-%m-%d') = CURDATE()
     GROUP BY

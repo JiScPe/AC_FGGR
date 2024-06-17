@@ -1,30 +1,32 @@
 "use client";
 import { useEffect, useState } from "react";
 import Card from "./total-table/Card";
+import { useSearchParams } from "next/navigation";
 
 function TotalSection() {
-  const [totalData, settotalData] = useState([]);
+  const [totalData, settotalData] = useState({});
   const [isLoading, setisLoading] = useState(true);
 
+  const searchParams = useSearchParams();
+  const plant = searchParams.get("plant");
+
   useEffect(() => {
+    setisLoading(true)
     fetchData();
     const intervalId = setInterval(() => {
       fetchData();
-    }, 1000 * 10);
+    }, 1000 * 60 * 5);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [plant]);
 
   function fetchData() {
-    console.log("fetching total data...");
     // setisLoading(true)
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-total`, {
-      cache: "no-store",
-    })
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-total?plant=${plant}`)
       .then((res) => res.json())
       .then((data) => {
-        console.info(`%cTotal Data:`, "color: green;");
-        console.info(data);
+        // console.info(`%cTotal Data: ${plant}`, "color: green;");
+        // console.info(data);
         settotalData(data);
         setisLoading(false);
       });
@@ -32,12 +34,9 @@ function TotalSection() {
 
   return (
     <div className="col-span-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {isLoading ? (
           <>
-            <div className="flex flex-col items-center m-2 bg-gray-700 py-20 rounded-lg animate-pulse">
-              <p>{""}</p>
-            </div>
             <div className="flex flex-col items-center m-2 bg-gray-700 py-20 rounded-lg animate-pulse">
               <p>{""}</p>
             </div>
@@ -50,10 +49,9 @@ function TotalSection() {
           </>
         ) : (
           <>
-            <Card qty={totalData[0].MesOffline} name="Mes Offline" />
-            <Card qty={totalData[0].Inbound} name={"FG GR"} />
-            <Card qty={totalData[0].NotInbound} name="Diff" diff={true} />
-            <Card qty={"???"} name="Total" />
+            <Card qty={totalData.MesOffline} name="Mes Offline" />
+            <Card qty={totalData.Inbound} name={"FG GR"} />
+            <Card qty={totalData.NotInbound} name="Diff" diff={true} />
           </>
         )}
       </div>
