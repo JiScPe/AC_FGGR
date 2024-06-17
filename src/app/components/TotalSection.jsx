@@ -11,7 +11,18 @@ function TotalSection() {
   const plant = searchParams.get("plant");
 
   useEffect(() => {
-    setisLoading(true)
+    setisLoading(true);
+    function fetchData() {
+      // setisLoading(true)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-total?plant=${plant}`)
+        .then((res) => res.json())
+        .then((data) => {
+          // console.info(`%cTotal Data: ${plant}`, "color: green;");
+          // console.info(data);
+          settotalData(data);
+          setisLoading(false);
+        });
+    }
     fetchData();
     const intervalId = setInterval(() => {
       fetchData();
@@ -19,18 +30,6 @@ function TotalSection() {
 
     return () => clearInterval(intervalId);
   }, [plant]);
-
-  function fetchData() {
-    // setisLoading(true)
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-total?plant=${plant}`)
-      .then((res) => res.json())
-      .then((data) => {
-        // console.info(`%cTotal Data: ${plant}`, "color: green;");
-        // console.info(data);
-        settotalData(data);
-        setisLoading(false);
-      });
-  }
 
   return (
     <div className="col-span-4">

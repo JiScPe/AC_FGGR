@@ -12,7 +12,20 @@ function TableDetail() {
   const plant = searchParams.get("plant");
 
   useEffect(() => {
-    setisLoading(true)
+    setisLoading(true);
+    function fetchAllBarcode() {
+      fetch(`/api/fg-notgr?plant=${plant}`)
+        .then((res) => res.json())
+        .then((data) => setbarcodeList(data));
+    }
+    function fetchData() {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-fggr?plant=${plant}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setfggrList(data);
+          setisLoading(false);
+        });
+    }
     fetchData();
     fetchAllBarcode();
     const intervalId = setInterval(() => {
@@ -22,21 +35,6 @@ function TableDetail() {
 
     return () => clearInterval(intervalId);
   }, [plant]);
-
-  async function fetchData() {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-fggr?plant=${plant}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setfggrList(data);
-        setisLoading(false);
-      });
-  }
-
-  async function fetchAllBarcode() {
-    fetch(`/api/fg-notgr?plant=${plant}`)
-      .then((res) => res.json())
-      .then((data) => setbarcodeList(data));
-  }
 
   return (
     <div className="col-span-2 overflow-y-hidden p-2 shadow-lg text-white bg-slate-700 bg-opacity-30 rounded-md">

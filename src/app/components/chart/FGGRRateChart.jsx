@@ -31,24 +31,25 @@ const FGGRRateChart = () => {
   const searchParams = useSearchParams();
   const plant = searchParams.get("plant");
 
-  function fetchData() {
-    const start_date = moment(dateRange[0].startDate).format("YYYY-MM-DD");
-    const end_date = moment(dateRange[0].endDate).format("YYYY-MM-DD");
-
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/fggr-rate?start_date=${start_date}&end_date=${end_date}&plant=${plant}`,
-      { cache: "no-store" }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          configuringChart(data);
-          setisLoading(false);
-        }
-      });
-  }
+  
 
   useEffect(() => {
+    function fetchData() {
+      const start_date = moment(dateRange[0].startDate).format("YYYY-MM-DD");
+      const end_date = moment(dateRange[0].endDate).format("YYYY-MM-DD");
+  
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/fggr-rate?start_date=${start_date}&end_date=${end_date}&plant=${plant}`,
+        { cache: "no-store" }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data) {
+            configuringChart(data);
+            setisLoading(false);
+          }
+        });
+    }
     setisLoading(true);
     fetchData();
   }, [dateRange, plant]);
